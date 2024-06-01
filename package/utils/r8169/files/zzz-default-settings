@@ -1,0 +1,37 @@
+#!/bin/sh
+
+uci set fstab.@global[0].anon_mount=1
+uci commit fstab
+
+uci -q delete network.globals.ula_prefix
+uci -q delete network.wan6
+uci -q delete network.lan.type
+uci -q delete network.lan.ip6assign
+uci set network.lan.delegate='0'
+uci set network.WireGuard='interface'
+uci set network.WireGuard.proto='wireguard'
+uci set network.WireGuard.delegate='0'
+uci set network.WireGuard.private_key='IK7iRJQuXXhmWImk/WajnoJH2GQXi7DuChrsZP0pNWA='
+uci set network.WireGuard.listen_port='2000'
+uci add_list network.WireGuard.addresses='192.168.100.1/24'
+uci set network.wgclient='wireguard_WireGuard'
+uci set network.wgclient.public_key='HxIQxXtLKyBBWT2gMzGIPZBLmPK7spiXZ58k/0upviQ='
+uci set network.wgclient.preshared_key='RpONxptGpHcj/Plfunl4gREeJ6W50UX28G5XQHJz0BA='
+uci set network.wgclient.route_allowed_ips='1'
+uci add_list network.wgclient.allowed_ips='192.168.100.2/32'
+uci commit network
+
+uci set dhcp.@dnsmasq[0].nonwildcard="0"
+uci commit dhcp
+
+sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba.lua
+
+sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
+echo "DISTRIB_REVISION='Compiled by DingYi'" >> /etc/openwrt_release
+sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
+echo "DISTRIB_DESCRIPTION='OpenWrt v18.06'" >> /etc/openwrt_release
+
+rm -rf /tmp/luci-modulecache/
+rm -f /tmp/luci-indexcache
+
+exit 0
