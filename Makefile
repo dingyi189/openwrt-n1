@@ -38,11 +38,11 @@ else
   include $(INCLUDE_DIR)/subdir.mk
   include target/Makefile
   include package/Makefile
-  include tools/Makefile
-  include toolchain/Makefile
+# include tools/Makefile
+# include toolchain/Makefile
 
-$(toolchain/stamp-compile): $(tools/stamp-compile)
-$(target/stamp-compile): $(toolchain/stamp-compile) $(tools/stamp-compile) $(BUILD_DIR)/.prepared
+# $(toolchain/stamp-compile): $(tools/stamp-compile)
+# $(target/stamp-compile): $(toolchain/stamp-compile) $(tools/stamp-compile) $(BUILD_DIR)/.prepared
 $(package/stamp-compile): $(target/stamp-compile) $(package/stamp-cleanup)
 $(package/stamp-install): $(package/stamp-compile)
 $(target/stamp-install): $(package/stamp-compile) $(package/stamp-install)
