@@ -10,8 +10,8 @@ ARCH:=i386
 BOARD:=x86
 BOARDNAME:=x86
 FEATURES:=squashfs ext4 vdi vmdk pcmcia targz fpu
-SUBTARGETS:=generic legacy geode 64
-MAINTAINER:=Felix Fietkau <nbd@nbd.name>
+SUBTARGETS:=64
+MAINTAINER:=DingYi <dingyi139@gmail.com>
 
 KERNEL_PATCHVER:=4.14
 
