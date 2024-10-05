@@ -14,12 +14,27 @@ Ubuntu 64bit (Ubuntu 18.04.6 LTS is recommended)
 sudo apt update
 sudo apt install git gcc flex python2.7 make gawk subversion zlib1g-dev libncurses5-dev g++-multilib libelf-dev
 
-git clone https://github.com/dingyi139/openwrt.git
-cd openwrt
+git clone https://github.com/dingyi189/openwrt-n1.git
+cd openwrt-n1
 export GIT_SSL_NO_VERIFY=1
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 make menuconfig
 make -j8 download V=s
-make V=s -j1
+make V=s -j5
+
+git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make defconfig
+make -j8 download V=s
+make V=s -j5
+
+rm -rf ./tmp && rm -rf .config
+make menuconfig
+make V=s -j5
+
+./scripts/feeds clean
+
+ppp ppp-mod-pppoe luci-proto-ppp kmod-brcmfmac libiwinfo-lua hostapd hostapd-common kmod-usb-net kmod-usb-net-asix-ax88179
 
